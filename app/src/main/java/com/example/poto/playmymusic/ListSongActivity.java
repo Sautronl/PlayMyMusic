@@ -5,11 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import static android.media.CamcorderProfile.get;
 
 public class ListSongActivity extends AppCompatActivity {
 
@@ -18,6 +21,12 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<Integer> rock = new ArrayList<>();
     ArrayList<Integer> rap = new ArrayList<>();
     ArrayList<Integer> son = new ArrayList<>();
+    ArrayList<String> titreAnime = new ArrayList<>();
+    ArrayList<String> titreEpic = new ArrayList<>();
+    ArrayList<String> titreRock = new ArrayList<>();
+    ArrayList<String> titreRap = new ArrayList<>();
+    ArrayList<ArrayList> whichCategory = new ArrayList<>();
+    ArrayList<ArrayList> whichTitle = new ArrayList<>();
 
     private ListView mListSon;
 
@@ -26,11 +35,14 @@ public class ListSongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_song);
 
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         mListSon = (ListView) findViewById(R.id.listSonName);
 
+        initTitle();
 
         Intent intent = getIntent();
-        int positionCategory = intent.getIntExtra("name",0);
+        final int positionCategory = intent.getIntExtra("name",0);
 
         try {
             listRaw();
@@ -38,13 +50,7 @@ public class ListSongActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (positionCategory == 0){
-
-        }
         checkCategory(positionCategory);
-
-        ListSongAdapter adapter = new ListSongAdapter(this,son);
-        mListSon.setAdapter(adapter);
 
         mListSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -53,10 +59,40 @@ public class ListSongActivity extends AppCompatActivity {
                 extra.putSerializable("array", son);
                 Intent playIntent = new Intent(ListSongActivity.this,PlayActivity.class);
                 playIntent.putExtra("id",position);
+                playIntent.putExtra("category",positionCategory);
                 playIntent.putExtra("extra", extra);
                 startActivity(playIntent);
             }
         });
+    }
+
+    private void initTitle() {
+
+        whichCategory.add(anime);
+        whichCategory.add(epic);
+        whichCategory.add(rock);
+        whichCategory.add(rap);
+
+        whichTitle.add(titreAnime);
+        whichTitle.add(titreEpic);
+        whichTitle.add(titreRock);
+        whichTitle.add(titreRap);
+
+        //ANIME
+        titreAnime.add("Evangelion OP - Cruel Angels Thesis");
+        titreAnime.add("HUNTING FOR YOUR DREAM");
+
+        //EPIC
+        titreEpic.add("Two Steps from Hell - Heart of Courage");
+        titreEpic.add("Two Steps From Hell - Immortal");
+
+        //ROCK
+        titreRock.add("Breaking Benjamin - Diary Of Jane");
+        titreRock.add("Sick Puppies - Youre Going Down");
+
+        //RAP
+        titreRap.add("Sniper - Fait divers");
+        titreRap.add("La Fouine - LUnité");
     }
 
     public void listRaw() throws IllegalAccessException {
@@ -80,37 +116,22 @@ public class ListSongActivity extends AppCompatActivity {
     }
 
     private void checkCategory(int positionCategory) {
-        if (positionCategory==0){
-            if (son.size()>0){
-                son.clear();
-            }
-            for (int i = 0; i < anime.size(); i++) {
-                son.add(anime.get(i));
-            }
-        }else if (positionCategory==1){
-            if (son.size()>0){
-                son.clear();
-            }
-            for (int i = 0; i < epic.size(); i++) {
-                son.add(epic.get(i));
-            }
-        }else if (positionCategory==2){
-            if (son.size()>0){
-                son.clear();
-            }
-            for (int i = 0; i < rock.size(); i++) {
-                son.add(rock.get(i));
-            }
-        }else{
-            if (son.size()>0){
-                son.clear();
-            }
-            for (int i = 0; i < rap.size(); i++) {
-                son.add(rap.get(i));
+
+        if (son.size()>0){
+            son.clear();
+        }
+        for (int i = whichCategory.size()-1; i >=positionCategory; i--) {
+            if (i == positionCategory){
+                ArrayList tr = whichCategory.get(i);
+                ArrayList<String> titleList = whichTitle.get(i);
+                for (int j = 0; j < tr.size(); j++) {
+                    son.add((Integer) tr.get(j));
+                }
+                ListSongAdapter adapter = new ListSongAdapter(this,son,titleList);
+                mListSon.setAdapter(adapter);
             }
         }
     }
-
 
     @Override
     public void onBackPressed() {

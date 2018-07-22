@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class PlayActivity extends AppCompatActivity {
 
     private MediaPlayer mMedia;
-    int id;
+    int id,saveId;
     ArrayList<Integer> sonPlay;
     private ArrayList<Integer> stockSon = new ArrayList<>();
     View view;
@@ -26,33 +26,30 @@ public class PlayActivity extends AppCompatActivity {
         sonPlay = (ArrayList<Integer>) extra.getSerializable("array");
 
         Intent intent = getIntent();
-         id = intent.getIntExtra("id",0);
+        id = intent.getIntExtra("id",0);
+        saveId = intent.getIntExtra("category",0);
 
-         playMusic(view);
+        playMusic(view);
     }
 
     public void playMusic(View v){
 
-            if (mMedia == null){
-                if (id == sonPlay.size()){
-                    Toast.makeText(this, "tu as fait le tour gros", Toast.LENGTH_SHORT).show();
-                    stockSon.clear();
-                    id = 0;
-                }else if (stockSon.size()==sonPlay.size()){
-                        Toast.makeText(this, "tu as fait le tour gros", Toast.LENGTH_SHORT).show();
-                        stockSon.clear();
-                        id = 0;
-                }
-                    stockSon.add(id);
-                    mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id));
-                    mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            next(view);
-                        }
-                    });
+        if (mMedia == null){
+            if (id == sonPlay.size()){
+                Toast.makeText(this, "tu as fait le tour gros", Toast.LENGTH_SHORT).show();
+                stockSon.clear();
+                id = 0;
             }
-            mMedia.start();
+                stockSon.add(id);
+                mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id));
+                mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        next(view);
+                    }
+                });
+        }
+        mMedia.start();
     }
 
     public void loopMusic(View v){
@@ -98,6 +95,8 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         stopMyMusic();
-        startActivity(new Intent(PlayActivity.this,ListSongActivity.class));
+        Intent backIntent = new Intent(PlayActivity.this,ListSongActivity.class);
+        backIntent.putExtra("name",saveId);
+        startActivity(backIntent);
     }
 }

@@ -15,12 +15,14 @@ public class ListSongAdapter extends BaseAdapter{
     private Activity activity;
     private LayoutInflater inflater;
     private ArrayList<Integer> sonId;
+    private ArrayList<String> sonTitle;
 
 
 
-    public ListSongAdapter(Activity activity,ArrayList<Integer> sonId) {
+    public ListSongAdapter(Activity activity,ArrayList<Integer> sonId,ArrayList<String> sonTitle) {
         this.activity = activity;
         this.sonId = sonId;
+        this.sonTitle=sonTitle;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class ListSongAdapter extends BaseAdapter{
         View itemView = inflater.inflate(R.layout.activity_son_item,null);
 
         TextView txtName = (TextView)itemView.findViewById(R.id.nameSon);
-        txtName.setText(sonId.get(i));
+        txtName.setText(sonTitle.get(i));
 
         return itemView;
     }

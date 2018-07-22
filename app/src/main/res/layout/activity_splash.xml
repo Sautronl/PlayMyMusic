@@ -4,22 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/batman"
+    android:background="@drawable/fondmusic"
     tools:context=".SplashActivity">
 
     <ImageView
         android:id="@+id/potoLogo"
-        android:layout_width="227dp"
-        android:layout_height="98dp"
+        android:layout_width="300dp"
+        android:layout_height="125dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="152dp"
         android:src="@drawable/potologo"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.457" />
 
 
     <TextView
