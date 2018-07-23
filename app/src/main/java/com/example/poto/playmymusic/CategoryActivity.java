@@ -40,28 +40,26 @@ public class CategoryActivity extends AppCompatActivity {
                 mModel = (CategoryModel) parent.getItemAtPosition(position);
                 switch (position) {
                     case 0:
-                        Intent animeIntent = new Intent(CategoryActivity.this, ListSongActivity.class);
-                        animeIntent.putExtra("name", 0);
-                        startActivity(animeIntent);
+                       intentCat(position);
                         break;
                     case 1:
-                        Intent epicIntent = new Intent(CategoryActivity.this, ListSongActivity.class);
-                        epicIntent.putExtra("name", 1);
-                        startActivity(epicIntent);
+                        intentCat(position);
                         break;
                     case 2:
-                        Intent rockIntent = new Intent(CategoryActivity.this, ListSongActivity.class);
-                        rockIntent.putExtra("name", 2);
-                        startActivity(rockIntent);
+                        intentCat(position);
                         break;
                     case 3:
-                        Intent rapIntent = new Intent(CategoryActivity.this, ListSongActivity.class);
-                        rapIntent.putExtra("name", 3);
-                        startActivity(rapIntent);
+                        intentCat(position);
                         break;
                 }
 
             }
         });
+    }
+
+    private void intentCat(int pos){
+        Intent intent = new Intent(CategoryActivity.this, ListSongActivity.class);
+        intent.putExtra("name", pos);
+        startActivity(intent);
     }
 }
