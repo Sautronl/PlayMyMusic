@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.MediaSession;
@@ -18,10 +19,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.github.florent37.arclayout.ArcLayout;
 
 import java.util.ArrayList;
@@ -30,7 +34,8 @@ public class PlayActivity extends AppCompatActivity {
 
     private MediaPlayer mMedia;
     int id,saveId;
-    ArrayList<Integer> sonPlay;
+    String saveCategory;
+    private ArrayList<MusicModel> sonPlay = new ArrayList<>();
     private ArrayList<Integer> stockSon = new ArrayList<>();
     View view;
     private static String TAG = "PlayActivity";
@@ -39,8 +44,9 @@ public class PlayActivity extends AppCompatActivity {
     int loopCounter =0;
     ImageView play1;
     ImageView pause1;
-    ImageView loop1;
+    ImageView loop1,imagePlay;
     ArrayList<String> allTitle;
+    MusicModel musicModelPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +58,17 @@ public class PlayActivity extends AppCompatActivity {
         play1 = (ImageView)findViewById(R.id.play1);
         pause1 = (ImageView)findViewById(R.id.pause1);
         loop1 = (ImageView)findViewById(R.id.loop1);
+        imagePlay = (ImageView) findViewById(R.id.imagePlay);
+
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        Typeface mainfont = Typeface.createFromAsset(getAssets(), "GothamRounded-Bold.otf");
+        titleMyMusicPlay.setTypeface(mainfont);
+
+        YoYo.with(Techniques.Shake)
+                .duration(10000)
+                .repeat(40)
+                .playOn(findViewById(R.id.titleMyMusicPlay));
 
         MediaSession mSession =  new MediaSession(this,this.getPackageName());
         if (mSession == null) {
@@ -101,13 +118,24 @@ public class PlayActivity extends AppCompatActivity {
                 .build();
         mSession.setPlaybackState(state);
 
-        Bundle extra = getIntent().getBundleExtra("extra");
-        sonPlay = (ArrayList<Integer>) extra.getSerializable("array");
-
         Intent intenta = getIntent();
         id = intenta.getIntExtra("id",0);
-        saveId = intenta.getIntExtra("category",0);
-        allTitle = intenta.getStringArrayListExtra("allTitle");
+        saveCategory = intenta.getStringExtra("category");
+        switch (saveCategory){
+            case "Anime":
+                saveId=0;
+                break;
+            case "Epic":
+                saveId=1;
+                break;
+            case "Rock":
+                saveId=2;
+                break;
+            case "Rap":
+                saveId=3;
+                break;
+        }
+        sonPlay = getIntent().getParcelableArrayListExtra("musicM");
 
         playMusic(view);
     }
@@ -123,11 +151,16 @@ public class PlayActivity extends AppCompatActivity {
                 id = 0;
             }
                 stockSon.add(id);
-                mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id));
-                titleMyMusicPlay.setText(allTitle.get(id));
+                imagePlay.setBackgroundResource(sonPlay.get(id).getImageId());
+                mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id).getId());
+                titleMyMusicPlay.setText(sonPlay.get(id).getTitle());
                 mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
+                        YoYo.with(Techniques.Shake)
+                                .duration(10000)
+                                .repeat(40)
+                                .playOn(findViewById(R.id.titleMyMusicPlay));
                         next(view);
                     }
                 });

@@ -14,25 +14,21 @@ public class ListSongAdapter extends BaseAdapter{
 
     private Activity activity;
     private LayoutInflater inflater;
-    private ArrayList<Integer> sonId;
-    private ArrayList<String> sonTitle;
+    private ArrayList<MusicModel> musicModels;
 
-
-
-    public ListSongAdapter(Activity activity,ArrayList<Integer> sonId,ArrayList<String> sonTitle) {
+    public ListSongAdapter(Activity activity,ArrayList<MusicModel> musicModels) {
         this.activity = activity;
-        this.sonId = sonId;
-        this.sonTitle=sonTitle;
+        this.musicModels=musicModels;
     }
 
     @Override
     public int getCount() {
-        return sonId.size();
+        return musicModels.size();
     }
 
     @Override
     public Object getItem(int i) {
-        return sonId.get(i);
+        return musicModels.get(i);
     }
 
     @Override
@@ -46,7 +42,7 @@ public class ListSongAdapter extends BaseAdapter{
         View itemView = inflater.inflate(R.layout.activity_son_item,null);
 
         TextView txtName = (TextView)itemView.findViewById(R.id.nameSon);
-        txtName.setText(sonTitle.get(i));
+        txtName.setText(musicModels.get(i).getTitle());
 
         return itemView;
     }
