@@ -6,66 +6,101 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/play1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <com.github.florent37.arclayout.ArcLayout
+            android:id="@+id/diagonalLayout"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@color/blanc"
+            android:elevation="10dip"
+            app:arc_cropDirection="cropOutside"
+            app:arc_height="45dp">
+
+        </com.github.florent37.arclayout.ArcLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="playMusic"
-        android:text="play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout">
 
-    <Button
-        android:id="@+id/pause1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:onClick="pauseMusic"
-        android:text="pause"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/play1" />
+        <TextView
+            android:id="@+id/titleMyMusicPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="lolololooolol" />
 
-    <Button
-        android:id="@+id/stop1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:onClick="stopMusic"
-        android:text="stop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pause1" />
+        <ImageView
+            android:id="@+id/play1"
+            android:layout_width="83dp"
+            android:layout_height="66dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:onClick="playMusic"
+            android:src="@drawable/butplay" />
 
-    <Button
-        android:id="@+id/next1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:onClick="nextMusic"
-        android:text="next"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stop1" />
+        <ImageView
+            android:id="@+id/pause1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="81dp"
+            android:layout_marginTop="68dp"
+            android:onClick="pauseMusic"
+            android:src="@drawable/butpause" />
 
-    <Button
-        android:id="@+id/loop1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:onClick="loopMusic"
-        android:text="loop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/next1" />
+        <ImageView
+            android:id="@+id/stop1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/pause1"
+            android:layout_marginStart="77dp"
+            android:onClick="stopMusic"
+            android:src="@drawable/butstop"
+            android:text="stop" />
+
+        <ImageView
+            android:id="@+id/next1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/pause1"
+            android:layout_marginEnd="24dp"
+            android:onClick="nextMusic"
+            android:src="@drawable/butnext"
+            android:text="next" />
+
+        <ImageView
+            android:id="@+id/loop1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/pause1"
+            android:layout_marginStart="14dp"
+            android:onClick="loopMusic"
+            android:src="@drawable/butloop"
+            android:text="loop" />
+
+    </RelativeLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

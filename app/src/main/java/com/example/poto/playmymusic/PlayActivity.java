@@ -18,7 +18,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.florent37.arclayout.ArcLayout;
 
 import java.util.ArrayList;
 
@@ -30,11 +33,16 @@ public class PlayActivity extends AppCompatActivity {
     private ArrayList<Integer> stockSon = new ArrayList<>();
     View view;
     private static String TAG = "PlayActivity";
+    ArcLayout arcLayout;
+    TextView titleMyMusicPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
+
+        arcLayout= (ArcLayout) findViewById(R.id.diagonalLayout);
+        titleMyMusicPlay = (TextView) findViewById(R.id.titleMyMusicPlay);
 
         MediaSession mSession =  new MediaSession(this,this.getPackageName());
         if (mSession == null) {
@@ -49,14 +57,6 @@ public class PlayActivity extends AppCompatActivity {
                     return false;
 
                 switch (event.getKeyCode()) {
-                    case KeyEvent.KEYCODE_MEDIA_STOP:
-                        // stop music
-                        break;
-                    case KeyEvent.KEYCODE_HEADSETHOOK:
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
-                        // pause music
-                        break;
                     case KeyEvent.KEYCODE_MEDIA_NEXT:
                         // next track
                         next(view);
@@ -98,9 +98,11 @@ public class PlayActivity extends AppCompatActivity {
         Intent intenta = getIntent();
         id = intenta.getIntExtra("id",0);
         saveId = intenta.getIntExtra("category",0);
+        String titleEx = intenta.getStringExtra("title");
+
+        titleMyMusicPlay.setText(titleEx);
 
         playMusic(view);
-
     }
 
     public void playMusic(View v){

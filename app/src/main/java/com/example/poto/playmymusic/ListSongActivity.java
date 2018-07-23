@@ -27,6 +27,7 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<String> titreRap = new ArrayList<>();
     ArrayList<ArrayList> whichCategory = new ArrayList<>();
     ArrayList<ArrayList> whichTitle = new ArrayList<>();
+    ArrayList<String> titleList;
 
     private ListView mListSon;
 
@@ -55,12 +56,14 @@ public class ListSongActivity extends AppCompatActivity {
         mListSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String tit = titleList.get(position);
                 Bundle extra = new Bundle();
                 extra.putSerializable("array", son);
                 Intent playIntent = new Intent(ListSongActivity.this,PlayActivity.class);
                 playIntent.putExtra("id",position);
                 playIntent.putExtra("category",positionCategory);
                 playIntent.putExtra("extra", extra);
+                playIntent.putExtra("title", tit);
                 startActivity(playIntent);
             }
         });
@@ -123,7 +126,7 @@ public class ListSongActivity extends AppCompatActivity {
         for (int i = whichCategory.size()-1; i >=positionCategory; i--) {
             if (i == positionCategory){
                 ArrayList tr = whichCategory.get(i);
-                ArrayList<String> titleList = whichTitle.get(i);
+                titleList = whichTitle.get(i);
                 for (int j = 0; j < tr.size(); j++) {
                     son.add((Integer) tr.get(j));
                 }
