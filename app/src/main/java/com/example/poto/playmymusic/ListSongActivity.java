@@ -27,6 +27,7 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<String> titreRap = new ArrayList<>();
     ArrayList<ArrayList> whichCategory = new ArrayList<>();
     ArrayList<ArrayList> whichTitle = new ArrayList<>();
+    ArrayList<Integer> imagePLaylist = new ArrayList<>();
     ArrayList<String> titleList;
 
     private ListView mListSon;
@@ -56,14 +57,13 @@ public class ListSongActivity extends AppCompatActivity {
         mListSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String tit = titleList.get(position);
                 Bundle extra = new Bundle();
                 extra.putSerializable("array", son);
                 Intent playIntent = new Intent(ListSongActivity.this,PlayActivity.class);
                 playIntent.putExtra("id",position);
                 playIntent.putExtra("category",positionCategory);
                 playIntent.putExtra("extra", extra);
-                playIntent.putExtra("title", tit);
+                playIntent.putExtra("allTitle", titleList);
                 startActivity(playIntent);
             }
         });
@@ -80,6 +80,9 @@ public class ListSongActivity extends AppCompatActivity {
         whichTitle.add(titreEpic);
         whichTitle.add(titreRock);
         whichTitle.add(titreRap);
+
+        //IMAGE
+        imagePLaylist.add(R.drawable.animelogo);
 
         //ANIME
         titreAnime.add("Evangelion OP - Cruel Angels Thesis");

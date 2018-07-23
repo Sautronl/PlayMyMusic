@@ -25,7 +25,6 @@
         <activity android:name=".CategoryActivity" />
         <activity android:name=".ListSongActivity" />
         <activity android:name=".PlayActivity" />
-        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

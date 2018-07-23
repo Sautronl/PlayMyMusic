@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,11 @@ public class PlayActivity extends AppCompatActivity {
     private static String TAG = "PlayActivity";
     ArcLayout arcLayout;
     TextView titleMyMusicPlay;
+    int loopCounter =0;
+    ImageView play1;
+    ImageView pause1;
+    ImageView loop1;
+    ArrayList<String> allTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,9 @@ public class PlayActivity extends AppCompatActivity {
 
         arcLayout= (ArcLayout) findViewById(R.id.diagonalLayout);
         titleMyMusicPlay = (TextView) findViewById(R.id.titleMyMusicPlay);
+        play1 = (ImageView)findViewById(R.id.play1);
+        pause1 = (ImageView)findViewById(R.id.pause1);
+        loop1 = (ImageView)findViewById(R.id.loop1);
 
         MediaSession mSession =  new MediaSession(this,this.getPackageName());
         if (mSession == null) {
@@ -98,15 +107,15 @@ public class PlayActivity extends AppCompatActivity {
         Intent intenta = getIntent();
         id = intenta.getIntExtra("id",0);
         saveId = intenta.getIntExtra("category",0);
-        String titleEx = intenta.getStringExtra("title");
-
-        titleMyMusicPlay.setText(titleEx);
+        allTitle = intenta.getStringArrayListExtra("allTitle");
 
         playMusic(view);
     }
 
     public void playMusic(View v){
 
+        play1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        pause1.setBackgroundColor(getResources().getColor(R.color.blanc));
         if (mMedia == null){
             if (id == sonPlay.size()){
                 Toast.makeText(this, "tu as fait le tour gros", Toast.LENGTH_SHORT).show();
@@ -115,6 +124,7 @@ public class PlayActivity extends AppCompatActivity {
             }
                 stockSon.add(id);
                 mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id));
+                titleMyMusicPlay.setText(allTitle.get(id));
                 mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
                     public void onCompletion(MediaPlayer mp) {
@@ -126,6 +136,12 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void loopMusic(View v){
+        loopCounter+=1;
+        if (!((loopCounter%2) ==0)){
+            loop1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        }else{
+            loop1.setBackgroundColor(getResources().getColor(R.color.blanc));
+        }
         if (mMedia != null){
             mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -140,6 +156,8 @@ public class PlayActivity extends AppCompatActivity {
         if (mMedia !=null){
             stopMyMusic();
             id = id+1;
+            loopCounter = 0;
+            loop1.setBackgroundColor(getResources().getColor(R.color.blanc));
             playMusic(v);
         }
     }
@@ -149,13 +167,17 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void pauseMusic(View v){
+        pause1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        play1.setBackgroundColor(getResources().getColor(R.color.blanc));
         if (mMedia != null){
             mMedia.pause();
         }
     }
 
     public void stopMusic(View v){
+        play1.setBackgroundColor(getResources().getColor(R.color.blanc));
         stopMyMusic();
+
     }
 
     private void stopMyMusic(){
