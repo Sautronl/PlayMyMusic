@@ -9,10 +9,10 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.poto.playmymusic.Utils.TitleAndPicture;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
-import static android.media.CamcorderProfile.get;
 
 public class ListSongActivity extends AppCompatActivity {
 
@@ -20,6 +20,7 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<MusicModel> epic = new ArrayList<>();
     ArrayList<MusicModel> rock = new ArrayList<>();
     ArrayList<MusicModel> rap = new ArrayList<>();
+    ArrayList<MusicModel> alea = new ArrayList<>();
     ArrayList<String> titreAnime = new ArrayList<>();
     ArrayList<String> titreEpic = new ArrayList<>();
     ArrayList<String> titreRock = new ArrayList<>();
@@ -28,7 +29,11 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<Integer> imagePLaylistEpic = new ArrayList<>();
     ArrayList<Integer> imagePLaylistRock = new ArrayList<>();
     ArrayList<Integer> imagePLaylistRap = new ArrayList<>();
+    ArrayList<Integer> imagePLaylistAll = new ArrayList<>();
     MusicModel musicModel;
+    TitleAndPicture titleAndPictureAnime,titleAndPictureEpic,titleAndPictureRock,titleAndPictureRap,titleAndPictureAll;
+    String finalTitle,realName,replace;
+    int finalPic;
 
     private ListView mListSon;
 
@@ -40,8 +45,6 @@ public class ListSongActivity extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         mListSon = (ListView) findViewById(R.id.listSonName);
-
-        initTitle();
 
         Intent intent = getIntent();
         final int positionCategory = intent.getIntExtra("name",0);
@@ -55,42 +58,6 @@ public class ListSongActivity extends AppCompatActivity {
         checkCategory(positionCategory);
     }
 
-    private void initTitle() {
-
-        //IMAGE ANIME
-        imagePLaylistAnime.add(R.drawable.evangelion11);
-        imagePLaylistAnime.add(R.drawable.hxh11);
-
-        //IMAGE EPIC
-        imagePLaylistEpic.add(R.drawable.twostepfromhell);
-        imagePLaylistEpic.add(R.drawable.twostepfromhell);
-
-        //IMAGE ROCK
-        imagePLaylistRock.add(R.drawable.breakingbenjamin);
-        imagePLaylistRock.add(R.drawable.sickpuppies);
-
-        //IMAGE RAP
-        imagePLaylistRap.add(R.drawable.sniper);
-        imagePLaylistRap.add(R.drawable.lafouine);
-
-
-        //ANIME
-        titreAnime.add("Evangelion OP - Cruel Angels Thesis");
-        titreAnime.add("HUNTING FOR YOUR DREAM");
-
-        //EPIC
-        titreEpic.add("Two Steps from Hell - Heart of Courage");
-        titreEpic.add("Two Steps From Hell - Immortal");
-
-        //ROCK
-        titreRock.add("Breaking Benjamin - Diary Of Jane");
-        titreRock.add("Sick Puppies - Youre Going Down");
-
-        //RAP
-        titreRap.add("Sniper - Fait divers");
-        titreRap.add("La Fouine - LUnité");
-    }
-
     public void listRaw() throws IllegalAccessException {
         Field[] fields = R.raw.class.getFields();
         int animeCount = 0;
@@ -99,28 +66,72 @@ public class ListSongActivity extends AppCompatActivity {
         int rapCount = 0;
         for (int count = 0; count < fields.length; count++) {
             Log.i("Raw Asset: ", fields[count].getName());
+            String nameID = fields[count].getName();
+            int resID=fields[count].getInt(fields[count]);
+            splitName(nameID);
+            titleAndPictureAll = new TitleAndPicture();
+            int pictureAll = (int) titleAndPictureAll.allpPicture(imagePLaylistAll).get(count);
+            musicModel = new MusicModel("Aleatoire", realName,resID,pictureAll);
+            alea.add(musicModel);
             if (fields[count].getName().contains("1")){
                 int resourceID=fields[count].getInt(fields[count]);
-                musicModel = new MusicModel("Anime",titreAnime.get(animeCount),resourceID,imagePLaylistAnime.get(animeCount));
+                titleAndPictureAnime = new TitleAndPicture();
+                titleAndPictureAnime.animeTitle(titreAnime);
+                titleAndPictureAnime.animePicture(imagePLaylistAnime);
+                finalTitle = (String) titleAndPictureAnime.animeTitle(titreAnime).get(animeCount);
+                finalPic = (int) titleAndPictureAnime.animePicture(imagePLaylistAnime).get(animeCount);
+                musicModel = new MusicModel("Anime", finalTitle,resourceID,finalPic);
                 animeCount+=1;
                 anime.add(musicModel);
-            }else if (fields[count].getName().contains("2")){
+            }
+            else if (fields[count].getName().contains("2")){
                 int resourceID=fields[count].getInt(fields[count]);
-                musicModel = new MusicModel("Epic",titreEpic.get(epicCount),resourceID,imagePLaylistEpic.get(epicCount));
+                titleAndPictureEpic = new TitleAndPicture();
+                titleAndPictureEpic.epicTitle(titreEpic);
+                titleAndPictureEpic.epicPicture(imagePLaylistEpic);
+                finalTitle = (String) titleAndPictureEpic.epicTitle(titreEpic).get(epicCount);
+                finalPic = (int) titleAndPictureEpic.epicPicture(imagePLaylistEpic).get(epicCount);
+                musicModel = new MusicModel("Epic",finalTitle,resourceID,finalPic);
                 epicCount+=1;
                 epic.add(musicModel);
-            }else if (fields[count].getName().contains("3")){
+            }
+            else if (fields[count].getName().contains("3")){
                 int resourceID=fields[count].getInt(fields[count]);
-                musicModel = new MusicModel("Rock",titreRock.get(rockCount),resourceID,imagePLaylistRock.get(rockCount));
+                titleAndPictureRock = new TitleAndPicture();
+                titleAndPictureRock.rockTitle(titreRock);
+                titleAndPictureRock.rockPicture(imagePLaylistRock);
+                finalTitle = (String) titleAndPictureRock.rockTitle(titreRock).get(rockCount);
+                finalPic = (int) titleAndPictureRock.rockPicture(imagePLaylistRock).get(rockCount);
+                musicModel = new MusicModel("Rock",finalTitle,resourceID,finalPic);
                 rockCount+=1;
                 rock.add(musicModel);
-            }else if (fields[count].getName().contains("4")){
+            }
+            else if (fields[count].getName().contains("4")){
                 int resourceID=fields[count].getInt(fields[count]);
-                musicModel = new MusicModel("Rap",titreRap.get(rapCount),resourceID,imagePLaylistRap.get(rapCount));
+                titleAndPictureRap = new TitleAndPicture();
+                titleAndPictureRap.rapTitle(titreRap);
+                titleAndPictureRap.rapPicture(imagePLaylistRap);
+                finalTitle = (String) titleAndPictureRap.rapTitle(titreRap).get(rapCount);
+                finalPic = (int) titleAndPictureRap.rapPicture(imagePLaylistRap).get(rapCount);
+                musicModel = new MusicModel("Rap",finalTitle,resourceID,finalPic);
                 rapCount+=1;
                 rap.add(musicModel);
             }
         }
+    }
+
+    private void splitName(String name) {
+        if(name.contains("1")) {
+            replace = name.replaceAll("1", "");
+        }else if (name.contains("2")){
+            replace = name.replaceAll("2","");
+        }else if (name.contains("3")){
+            replace = name.replaceAll("3","");
+        }else{
+            replace = name.replaceAll("4","");
+        }
+        String split = replace.replaceAll("_"," ");
+        realName = split;
     }
 
     private void checkCategory(int positionCategory) {
@@ -138,11 +149,14 @@ public class ListSongActivity extends AppCompatActivity {
             case 3:
                adapterMusic(rap);
                 break;
+            case 4:
+                adapterMusic(alea);
+                break;
         }
     }
 
     private void adapterMusic(final ArrayList<MusicModel> musique) {
-        ListSongAdapter adapterRap = new ListSongAdapter(this,musique);
+    ListSongAdapter adapterRap = new ListSongAdapter(this,musique);
         mListSon.setAdapter(adapterRap);
         mListSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

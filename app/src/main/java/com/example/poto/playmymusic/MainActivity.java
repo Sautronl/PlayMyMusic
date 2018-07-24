@@ -15,13 +15,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    MediaPlayer mMedia;
-    ArrayList<Integer> son = new ArrayList<>();
-    ArrayList<Integer> stock = new ArrayList<>();
-    ArrayList<Integer> anime = new ArrayList<>();
-    ArrayList<Integer> epic = new ArrayList<>();
-    Random random = new Random();
-    int idSon,min,max,randomMusic;
+//    MediaPlayer mMedia;
+//    ArrayList<Integer> son = new ArrayList<>();
+//    ArrayList<Integer> stock = new ArrayList<>();
+//    ArrayList<Integer> anime = new ArrayList<>();
+//    ArrayList<Integer> epic = new ArrayList<>();
+//    Random random = new Random();
+//    int idSon, min, max, randomMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 //        }
 
 
-        Intent intent = getIntent();
-        int positionCategory = intent.getIntExtra("name",0);
+//        Intent intent = getIntent();
+//        int positionCategory = intent.getIntExtra("name",0);
 //        checkCategory(positionCategory);
-    }
+//    }
 
 //    private void checkCategory(int positionCategory) {
 //        if (positionCategory==0){
@@ -72,81 +72,82 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //    }
 
-    public void playMusic(final View v){
-
-        if (son.size() != 0){
-            min = 0;
-            max = son.size();
-            randomMusic = min + random.nextInt(max+min);
-            idSon = son.get(randomMusic);
-
-            if (mMedia == null){
-                if (!stock.contains(idSon)){
-                    mMedia = MediaPlayer.create(MainActivity.this,idSon);
-                    mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                        @Override
-                        public void onCompletion(MediaPlayer mp) {
-                            next(v);
-                        }
-                    });
-                    stock.add(idSon);
-                    if (stock.size() == max) {
-                        stock.clear();
-                        Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
-                    }
-                }else{
-                    playMusic(v);
-                }
-            }
-            mMedia.start();
-        }else{
-            Toast.makeText(this, "tu es plus anime ou epic?", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void loopMusic(View v){
-        if (mMedia != null){
-            mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
-        }
-    }
-
-    public void nextMusic(View v){
-        if (mMedia !=null){
-            stopMyMusic();
-            playMusic(v);
-        }
-    }
-
-    public void next(View v){
-        nextMusic(v);
-    }
-
-    public void pauseMusic(View v){
-        if (mMedia != null){
-            mMedia.pause();
-        }
-    }
-
-    public void stopMusic(View v){
-        stopMyMusic();
-    }
-
-    private void stopMyMusic(){
-        if (mMedia != null){
-            mMedia.release();
-            mMedia = null;
-        }
-    }
+//    public void playMusic(final View v){
+//
+//        if (son.size() != 0){
+//            min = 0;
+//            max = son.size();
+//            randomMusic = min + random.nextInt(max+min);
+//            idSon = son.get(randomMusic);
+//
+//            if (mMedia == null){
+//                if (!stock.contains(idSon)){
+//                    mMedia = MediaPlayer.create(MainActivity.this,idSon);
+//                    mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                        @Override
+//                        public void onCompletion(MediaPlayer mp) {
+//                            next(v);
+//                        }
+//                    });
+//                    stock.add(idSon);
+//                    if (stock.size() == max) {
+//                        stock.clear();
+//                        Toast.makeText(this, "Done", Toast.LENGTH_LONG).show();
+//                    }
+//                }else{
+//                    playMusic(v);
+//                }
+//            }
+//            mMedia.start();
+//        }else{
+//            Toast.makeText(this, "tu es plus anime ou epic?", Toast.LENGTH_SHORT).show();
+//        }
+//    }
+//
+//    public void loopMusic(View v){
+//        if (mMedia != null){
+//            mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//                @Override
+//                public void onCompletion(MediaPlayer mp) {
+//                    mp.start();
+//                }
+//            });
+//        }
+//    }
+//
+//    public void nextMusic(View v){
+//        if (mMedia !=null){
+//            stopMyMusic();
+//            playMusic(v);
+//        }
+//    }
+//
+//    public void next(View v){
+//        nextMusic(v);
+//    }
+//
+//    public void pauseMusic(View v){
+//        if (mMedia != null){
+//            mMedia.pause();
+//        }
+//    }
+//
+//    public void stopMusic(View v){
+//        stopMyMusic();
+//    }
+//
+//    private void stopMyMusic(){
+//        if (mMedia != null){
+//            mMedia.release();
+//            mMedia = null;
+//        }
+//    }
 
 //    @Override
 //    protected void onStop(){
 //        super.onStop();
 //        stopMyMusic();
 //    }
+    }
 }
 

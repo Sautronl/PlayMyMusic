@@ -45,8 +45,8 @@ public class PlayActivity extends AppCompatActivity {
     ImageView play1;
     ImageView pause1;
     ImageView loop1,imagePlay;
-    ArrayList<String> allTitle;
-    MusicModel musicModelPlay;
+//    ArrayList<String> allTitle;
+//    MusicModel musicModelPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +134,9 @@ public class PlayActivity extends AppCompatActivity {
             case "Rap":
                 saveId=3;
                 break;
+            case "Aleatoire":
+                saveId=4;
+                break;
         }
         sonPlay = getIntent().getParcelableArrayListExtra("musicM");
 
@@ -209,12 +212,14 @@ public class PlayActivity extends AppCompatActivity {
 
     public void stopMusic(View v){
         play1.setBackgroundColor(getResources().getColor(R.color.blanc));
+
         stopMyMusic();
 
     }
 
     private void stopMyMusic(){
         if (mMedia != null){
+            loopCounter=0;
             mMedia.release();
             mMedia = null;
         }

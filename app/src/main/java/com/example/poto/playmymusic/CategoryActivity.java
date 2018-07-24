@@ -1,6 +1,7 @@
 package com.example.poto.playmymusic;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -25,11 +27,16 @@ public class CategoryActivity extends AppCompatActivity {
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        TextView titleCategory = (TextView)findViewById(R.id.titleCategory);
+        Typeface mainfont = Typeface.createFromAsset(getAssets(), "GothamRounded-Bold.otf");
+        titleCategory.setTypeface(mainfont);
+
         mList = (ListView) findViewById(R.id.list);
         mArray.add(new CategoryModel("Anime",R.drawable.animelogo));
         mArray.add(new CategoryModel("Epic",R.drawable.epiclogo));
         mArray.add(new CategoryModel("Rock",R.drawable.rocklogo));
         mArray.add(new CategoryModel("Rap",R.drawable.raplogo));
+        mArray.add(new CategoryModel("Aleatoire",R.drawable.allmusic));
 
         MyCategoryAdapter adapter = new MyCategoryAdapter(CategoryActivity.this,mArray);
         mList.setAdapter(adapter);
@@ -51,8 +58,10 @@ public class CategoryActivity extends AppCompatActivity {
                     case 3:
                         intentCat(position);
                         break;
+                    case 4:
+                        intentCat(position);
+                        break;
                 }
-
             }
         });
     }

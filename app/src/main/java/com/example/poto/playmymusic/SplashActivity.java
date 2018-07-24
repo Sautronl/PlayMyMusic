@@ -14,7 +14,7 @@ import com.daimajia.androidanimations.library.YoYo;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int DURATION = 5000;
+    private static int DURATION = 4000;
     private Handler handler = new Handler();
     CountDownTimer countDownTimer;
     YoYo yoYo;
@@ -34,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
                 if (millisUntilFinished/1000 == 1){
 
                     YoYo.with(Techniques.FadeIn)
-                            .duration(4000)
+                            .duration(3000)
                             .repeat(1)
                             .playOn(findViewById(R.id.potoLogo));
                     poto.setVisibility(View.VISIBLE);

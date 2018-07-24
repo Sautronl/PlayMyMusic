@@ -2,6 +2,7 @@ package com.example.poto.playmymusic;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,9 @@ public class MyCategoryAdapter extends BaseAdapter{
 
         TextView txtName = (TextView)itemView.findViewById(R.id.nameCategory);
         ImageView img = (ImageView) itemView.findViewById(R.id.imageCategory);
+
+        Typeface mainfont = Typeface.createFromAsset(activity.getAssets(), "GothamRounded-Bold.otf");
+        txtName.setTypeface(mainfont);
         txtName.setText(catModel.get(i).getName());
         img.setImageResource(catModel.get(i).getIdimg());
         return itemView;

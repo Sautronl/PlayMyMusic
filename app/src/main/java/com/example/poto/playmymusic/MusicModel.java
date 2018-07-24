@@ -1,8 +1,9 @@
 package com.example.poto.playmymusic;
 
-import android.content.Intent;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.poto.playmymusic.Utils.TitleAndPicture;
 
 public class MusicModel implements Parcelable{
     private String category;

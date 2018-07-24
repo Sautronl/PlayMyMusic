@@ -1,7 +1,5 @@
 package com.example.poto.playmymusic;
 
-import android.graphics.drawable.Drawable;
-
 public class CategoryModel {
     private String name;
     private int idimg;
