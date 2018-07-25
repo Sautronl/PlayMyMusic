@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewho
     @Override
     public void onBindViewHolder(ListSongAdapter.Viewholder viewholder, final int position) {
         viewholder.name.setText(musicModels.get(position).getTitle());
+        viewholder.image.setImageResource(musicModels.get(position).getImageId());
         viewholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,11 +65,13 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewho
     public class Viewholder extends RecyclerView.ViewHolder{
 
         TextView name;
+        ImageView image;
 
         public Viewholder(View itemView) {
             super(itemView);
 
             name = itemView.findViewById(R.id.nameSon);
+            image = itemView.findViewById(R.id.imageSon);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.poto.playmymusic;
 
 import android.content.Intent;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class ListSongActivity extends AppCompatActivity {
     int finalPic;
     ImageView mainPicture;
     private RecyclerView mListSon;
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,8 @@ public class ListSongActivity extends AppCompatActivity {
 
         mListSon = (RecyclerView) findViewById(R.id.listSonName);
         mainPicture = (ImageView) findViewById(R.id.mainPicture);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.maincollapsing);
 
         Intent intent = getIntent();
         final int positionCategory = intent.getIntExtra("name",0);
@@ -142,29 +146,27 @@ public class ListSongActivity extends AppCompatActivity {
 
         switch (positionCategory){
             case 0:
-                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.animelogo));
-                adapterMusic(anime);
+                adapterMusic(anime,R.drawable.animelogo,"Anime");
                 break;
             case 1:
-                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.epiclogo));
-                adapterMusic(epic);
+                adapterMusic(epic,R.drawable.epiclogo,"Epic");
                 break;
             case 2:
-                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.rocklogo));
-                adapterMusic(rock);
+                adapterMusic(rock,R.drawable.rocklogo,"Rock");
                 break;
             case 3:
-                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.raplogo));
-                adapterMusic(rap);
+                adapterMusic(rap,R.drawable.raplogo,"Rap");
                 break;
             case 4:
-                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.allmusic));
-                adapterMusic(alea);
+                adapterMusic(alea,R.drawable.allmusic,"Aleatoire");
                 break;
         }
     }
 
-    private void adapterMusic(final ArrayList<MusicModel> musique) {
+    private void adapterMusic(final ArrayList<MusicModel> musique,int drawable,String catName) {
+        collapsingToolbarLayout.setTitle(catName);
+        collapsingToolbarLayout.setBackgroundColor(getResources().getColor(R.color.blanc));
+        mainPicture.setImageDrawable(getResources().getDrawable(drawable));
         mListSon.setLayoutManager(new LinearLayoutManager(ListSongActivity.this));
         ListSongAdapter adapter = new ListSongAdapter(this,musique);
         mListSon.setAdapter(adapter);
