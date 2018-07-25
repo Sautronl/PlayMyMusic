@@ -1,17 +1,17 @@
 package com.example.poto.playmymusic;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.poto.playmymusic.Model.CategoryModel;
+import com.example.poto.playmymusic.Model.MusicModel;
 
 import java.util.ArrayList;
 
@@ -19,12 +19,10 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewho
 
     private Activity activity;
     private ArrayList<MusicModel> musicModels;
-    private CategoryModel categoryModel;
 
-    public ListSongAdapter(Activity activity,ArrayList<MusicModel> musicModels,CategoryModel categoryModel) {
+    public ListSongAdapter(Activity activity,ArrayList<MusicModel> musicModels) {
         this.activity = activity;
         this.musicModels=musicModels;
-        this.categoryModel=categoryModel;
     }
 
     @NonNull
@@ -50,13 +48,14 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewho
     @Override
     public void onBindViewHolder(ListSongAdapter.Viewholder viewholder, final int position) {
         viewholder.name.setText(musicModels.get(position).getTitle());
-        viewholder.image.setImageResource(musicModels.get(position).getImageId());
+        viewholder.name.setTextColor(musicModels.get(position).getCategoryModel().getCouleurtexte());
+        viewholder.image.setImageResource(musicModels.get(position).getIdImageMusic());
         viewholder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent playIntent = new Intent(activity,PlayActivity.class);
                 playIntent.putExtra("id",position);
-                playIntent.putExtra("category",categoryModel);
+                playIntent.putExtra("idPlay",musicModels.get(position));
                 playIntent.putExtra("musicM", musicModels);
                 activity.startActivity(playIntent);
             }

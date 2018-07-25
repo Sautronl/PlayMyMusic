@@ -12,11 +12,13 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
+import com.example.poto.playmymusic.Model.CategoryModel;
+
 import java.util.ArrayList;
 
 public class CategoryActivity extends AppCompatActivity {
 
+    private static final String TAG = "CategoryActivity";
     private ListView mList;
     private CategoryModel mModel;
     private ArrayList<CategoryModel> mArray = new ArrayList<>();
@@ -50,36 +52,34 @@ public class CategoryActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         pos = position;
-                       intentCat(mArray.get(position));
+                       intentCat(mArray.get(position),mArray);
                         break;
                     case 1:
                         pos = position;
-                        intentCat(mArray.get(position));
+                        intentCat(mArray.get(position),mArray);
                         break;
                     case 2:
                         pos = position;
-                        intentCat(mArray.get(position));
+                        intentCat(mArray.get(position),mArray);
                         break;
                     case 3:
                         pos = position;
-                        intentCat(mArray.get(position));
+                        intentCat(mArray.get(position),mArray);
                         break;
                     case 4:
                         pos = position;
-                        intentCat(mArray.get(position));
+                        intentCat(mArray.get(position),mArray);
                         break;
                 }
             }
         });
     }
 
-    public static void start(Context c,int pos) {
-        c.startActivity(new Intent(c, ListSongActivity.class).putExtra("name",pos));
-    }
-
-    private void intentCat(CategoryModel pos){
+    private void intentCat(CategoryModel pos,ArrayList<CategoryModel> categoryModels){
         Intent intent = new Intent(CategoryActivity.this, ListSongActivity.class);
         intent.putExtra("name", pos);
+        intent.putExtra("packCategory", categoryModels);
+        Log.d(TAG, "intentCat: "+categoryModels.size()+categoryModels.get(0)+categoryModels.get(1)+categoryModels.get(2)+categoryModels.get(3));
         startActivity(intent);
     }
 }

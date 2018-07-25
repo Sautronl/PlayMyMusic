@@ -2,21 +2,22 @@ package com.example.poto.playmymusic;
 
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.CollapsibleActionView;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 
+import com.example.poto.playmymusic.Model.CategoryModel;
+import com.example.poto.playmymusic.Model.MusicModel;
 import com.example.poto.playmymusic.Utils.TitleAndPicture;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ListSongActivity extends AppCompatActivity {
 
@@ -25,23 +26,17 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<MusicModel> rock = new ArrayList<>();
     ArrayList<MusicModel> rap = new ArrayList<>();
     ArrayList<MusicModel> alea = new ArrayList<>();
-    ArrayList<String> titreAnime = new ArrayList<>();
-    ArrayList<String> titreEpic = new ArrayList<>();
-    ArrayList<String> titreRock = new ArrayList<>();
-    ArrayList<String> titreRap = new ArrayList<>();
-    ArrayList<Integer> imagePLaylistAnime = new ArrayList<>();
-    ArrayList<Integer> imagePLaylistEpic = new ArrayList<>();
-    ArrayList<Integer> imagePLaylistRock = new ArrayList<>();
-    ArrayList<Integer> imagePLaylistRap = new ArrayList<>();
-    ArrayList<Integer> imagePLaylistAll = new ArrayList<>();
+    ArrayList<CategoryModel> allCategory = new ArrayList<>();
     MusicModel musicModel;
-    TitleAndPicture titleAndPictureAnime,titleAndPictureEpic,titleAndPictureRock,titleAndPictureRap,titleAndPictureAll;
-    String finalTitle,realName,replace;
-    int finalPic;
+    String realName,replace;
     ImageView mainPicture;
     private RecyclerView mListSon;
     CollapsingToolbarLayout collapsingToolbarLayout;
     CategoryModel positionCategory;
+    int animeCount;
+    int epicCount;
+    int rockCount;
+    int rapCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +53,7 @@ public class ListSongActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent!= null){
             positionCategory = intent.getParcelableExtra("name");
+            allCategory = intent.getParcelableArrayListExtra("packCategory");
         }
 
         try {
@@ -71,64 +67,48 @@ public class ListSongActivity extends AppCompatActivity {
 
     public void listRaw() throws IllegalAccessException {
         Field[] fields = R.raw.class.getFields();
-        int animeCount = 0;
-        int epicCount = 0;
-        int rockCount = 0;
-        int rapCount = 0;
+         animeCount = 0;
+         epicCount = 0;
+         rockCount = 0;
+         rapCount = 0;
         for (int count = 0; count < fields.length; count++) {
             Log.i("Raw Asset: ", fields[count].getName());
             String nameID = fields[count].getName();
             int resID=fields[count].getInt(fields[count]);
             splitName(nameID);
-            titleAndPictureAll = new TitleAndPicture();
-            int pictureAll = (int) titleAndPictureAll.allpPicture(imagePLaylistAll).get(count);
-            musicModel = new MusicModel("Aleatoire", realName,resID,pictureAll);
+            TitleAndPicture titleAndPicture = new TitleAndPicture();
+            int imageAll =titleAndPicture.imageSong("Aleatoire",count);
+            musicModel = new MusicModel(realName,resID,imageAll,allCategory.get(4));
             alea.add(musicModel);
             if (fields[count].getName().contains("1")){
                 int resourceID=fields[count].getInt(fields[count]);
-                titleAndPictureAnime = new TitleAndPicture();
-                titleAndPictureAnime.animeTitle(titreAnime);
-                titleAndPictureAnime.animePicture(imagePLaylistAnime);
-                finalTitle = (String) titleAndPictureAnime.animeTitle(titreAnime).get(animeCount);
-                finalPic = (int) titleAndPictureAnime.animePicture(imagePLaylistAnime).get(animeCount);
-                musicModel = new MusicModel("Anime", finalTitle,resourceID,finalPic);
+               getTheMusic("Anime",animeCount,resourceID,anime,allCategory.get(0));
                 animeCount+=1;
-                anime.add(musicModel);
             }
             else if (fields[count].getName().contains("2")){
                 int resourceID=fields[count].getInt(fields[count]);
-                titleAndPictureEpic = new TitleAndPicture();
-                titleAndPictureEpic.epicTitle(titreEpic);
-                titleAndPictureEpic.epicPicture(imagePLaylistEpic);
-                finalTitle = (String) titleAndPictureEpic.epicTitle(titreEpic).get(epicCount);
-                finalPic = (int) titleAndPictureEpic.epicPicture(imagePLaylistEpic).get(epicCount);
-                musicModel = new MusicModel("Epic",finalTitle,resourceID,finalPic);
+                getTheMusic("Epic",epicCount,resourceID,epic,allCategory.get(1));
                 epicCount+=1;
-                epic.add(musicModel);
             }
             else if (fields[count].getName().contains("3")){
                 int resourceID=fields[count].getInt(fields[count]);
-                titleAndPictureRock = new TitleAndPicture();
-                titleAndPictureRock.rockTitle(titreRock);
-                titleAndPictureRock.rockPicture(imagePLaylistRock);
-                finalTitle = (String) titleAndPictureRock.rockTitle(titreRock).get(rockCount);
-                finalPic = (int) titleAndPictureRock.rockPicture(imagePLaylistRock).get(rockCount);
-                musicModel = new MusicModel("Rock",finalTitle,resourceID,finalPic);
+               getTheMusic("Rock",rockCount,resourceID,rock,allCategory.get(2));
                 rockCount+=1;
-                rock.add(musicModel);
             }
             else if (fields[count].getName().contains("4")){
                 int resourceID=fields[count].getInt(fields[count]);
-                titleAndPictureRap = new TitleAndPicture();
-                titleAndPictureRap.rapTitle(titreRap);
-                titleAndPictureRap.rapPicture(imagePLaylistRap);
-                finalTitle = (String) titleAndPictureRap.rapTitle(titreRap).get(rapCount);
-                finalPic = (int) titleAndPictureRap.rapPicture(imagePLaylistRap).get(rapCount);
-                musicModel = new MusicModel("Rap",finalTitle,resourceID,finalPic);
-                rapCount+=1;
-                rap.add(musicModel);
+               getTheMusic("Rap",rapCount,resourceID,rap,allCategory.get(3));
+               rapCount+=1;
             }
         }
+    }
+
+    private void getTheMusic(String genre,int count,int resourceID,ArrayList<MusicModel> category,CategoryModel allCategory) {
+        TitleAndPicture titleAndPicture2 = new TitleAndPicture();
+        String title = titleAndPicture2.titleSong(genre,count);
+        int image =titleAndPicture2.imageSong(genre,count);
+        musicModel = new MusicModel(title,resourceID,image,allCategory);
+        category.add(musicModel);
     }
 
     private void splitName(String name) {
@@ -149,19 +129,19 @@ public class ListSongActivity extends AppCompatActivity {
 
         switch (positionCategory.getName()){
             case "Anime":
-                adapterMusic(anime,positionCategory.getIdimg(),positionCategory.getName());
+                adapterMusic(anime,allCategory.get(0).getIdimg(),allCategory.get(0).getName());
                 break;
             case "Epic":
-                adapterMusic(epic,positionCategory.getIdimg(),positionCategory.getName());
+                adapterMusic(epic,allCategory.get(1).getIdimg(),allCategory.get(1).getName());
                 break;
             case "Rock":
-                adapterMusic(rock,positionCategory.getIdimg(),positionCategory.getName());
+                adapterMusic(rock,allCategory.get(2).getIdimg(),allCategory.get(2).getName());
                 break;
             case "Rap":
-                adapterMusic(rap,positionCategory.getIdimg(),positionCategory.getName());
+                adapterMusic(rap,allCategory.get(3).getIdimg(),allCategory.get(3).getName());
                 break;
             case "Aleatoire":
-                adapterMusic(alea,positionCategory.getIdimg(),positionCategory.getName());
+                adapterMusic(alea,allCategory.get(4).getIdimg(),allCategory.get(4).getName());
                 break;
         }
     }
@@ -171,7 +151,7 @@ public class ListSongActivity extends AppCompatActivity {
         collapsingToolbarLayout.setBackgroundColor(getResources().getColor(R.color.blanc));
         mainPicture.setImageDrawable(getResources().getDrawable(drawable));
         mListSon.setLayoutManager(new LinearLayoutManager(ListSongActivity.this));
-        ListSongAdapter adapter = new ListSongAdapter(this,musique,positionCategory);
+        ListSongAdapter adapter = new ListSongAdapter(this,musique);
         mListSon.setAdapter(adapter);
     }
 

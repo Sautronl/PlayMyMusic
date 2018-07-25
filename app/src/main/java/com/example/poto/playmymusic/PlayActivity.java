@@ -1,19 +1,10 @@
 package com.example.poto.playmymusic;
 
-import android.app.PendingIntent;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Typeface;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.session.MediaSession;
 import android.media.session.PlaybackState;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,6 +17,8 @@ import android.widget.Toast;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.example.poto.playmymusic.Model.CategoryModel;
+import com.example.poto.playmymusic.Model.MusicModel;
 import com.github.florent37.arclayout.ArcLayout;
 
 import java.util.ArrayList;
@@ -34,7 +27,7 @@ public class PlayActivity extends AppCompatActivity {
 
     private MediaPlayer mMedia;
     int id;
-    CategoryModel saveCategory;
+    MusicModel saveCategory;
     private ArrayList<MusicModel> sonPlay = new ArrayList<>();
     private ArrayList<Integer> stockSon = new ArrayList<>();
     View view;
@@ -120,7 +113,7 @@ public class PlayActivity extends AppCompatActivity {
 
         Intent intenta = getIntent();
         id = intenta.getIntExtra("id",0);
-        saveCategory = intenta.getParcelableExtra("category");
+        saveCategory = intenta.getParcelableExtra("idPlay");
         sonPlay = getIntent().getParcelableArrayListExtra("musicM");
         playMusic(view);
     }
@@ -133,17 +126,15 @@ public class PlayActivity extends AppCompatActivity {
         pause1.setBackgroundColor(getResources().getColor(R.color.jaune));
         if (id<0){
             id = sonPlay.size()-1;
-            Toast.makeText(this, "On est reparti", Toast.LENGTH_SHORT).show();
         }
         if (mMedia == null){
             if (id == sonPlay.size()){
-                Toast.makeText(this, "tu as fait le tour gros", Toast.LENGTH_SHORT).show();
                 stockSon.clear();
                 id = 0;
             }
                 stockSon.add(id);
-                imagePlay.setBackgroundResource(sonPlay.get(id).getImageId());
-                mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id).getId());
+                imagePlay.setBackgroundResource(sonPlay.get(id).getIdImageMusic());
+                mMedia = MediaPlayer.create(PlayActivity.this,sonPlay.get(id).getIdMusic());
                 titleMyMusicPlay.setText(sonPlay.get(id).getTitle());
                 mMedia.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                     @Override
@@ -224,8 +215,20 @@ public class PlayActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         stopMyMusic();
+        ArrayList<CategoryModel> backAllCategory = new ArrayList<>();
+
+        backAllCategory.add(new CategoryModel("Anime",R.drawable.animelogo,getResources().getColor(R.color.rouge)));
+        backAllCategory.add(new CategoryModel("Epic",R.drawable.epiclogo,getResources().getColor(R.color.jaune)));
+        backAllCategory.add(new CategoryModel("Rock",R.drawable.rocklogo,getResources().getColor(R.color.noir)));
+        backAllCategory.add(new CategoryModel("Rap",R.drawable.raplogo,getResources().getColor(R.color.colorPrimaryDark)));
+        backAllCategory.add(new CategoryModel("Aleatoire",R.drawable.allmusic,getResources().getColor(R.color.colorAccent)));
+
+        CategoryModel categoryBack = new CategoryModel(saveCategory.getCategoryModel().getName(),
+                saveCategory.getCategoryModel().getIdimg(),saveCategory.getCategoryModel().getCouleurtexte());
+
         Intent backIntent = new Intent(PlayActivity.this,ListSongActivity.class);
-        backIntent.putExtra("name",saveCategory);
+        backIntent.putExtra("name",categoryBack);
+        backIntent.putExtra("packCategory",backAllCategory);
         startActivity(backIntent);
     }
 }

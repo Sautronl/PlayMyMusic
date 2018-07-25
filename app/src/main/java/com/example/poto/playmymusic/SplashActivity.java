@@ -17,7 +17,6 @@ public class SplashActivity extends AppCompatActivity {
     private static int DURATION = 4000;
     private Handler handler = new Handler();
     CountDownTimer countDownTimer;
-    YoYo yoYo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
