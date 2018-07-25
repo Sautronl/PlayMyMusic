@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MyCategoryAdapter extends BaseAdapter{
@@ -44,6 +45,7 @@ public class MyCategoryAdapter extends BaseAdapter{
         inflater = (LayoutInflater)activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View itemView = inflater.inflate(R.layout.activity_event_item,null);
 
+
         TextView txtName = (TextView)itemView.findViewById(R.id.nameCategory);
         ImageView img = (ImageView) itemView.findViewById(R.id.imageCategory);
 
@@ -51,6 +53,8 @@ public class MyCategoryAdapter extends BaseAdapter{
         txtName.setTypeface(mainfont);
         txtName.setText(catModel.get(i).getName());
         img.setImageResource(catModel.get(i).getIdimg());
+        txtName.setTextColor(catModel.get(i).getColor());
+
         return itemView;
     }
 }

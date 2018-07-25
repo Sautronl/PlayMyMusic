@@ -1,13 +1,16 @@
 package com.example.poto.playmymusic;
 
 import android.content.Intent;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
+import android.view.CollapsibleActionView;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ImageView;
+
 
 import com.example.poto.playmymusic.Utils.TitleAndPicture;
 
@@ -34,8 +37,8 @@ public class ListSongActivity extends AppCompatActivity {
     TitleAndPicture titleAndPictureAnime,titleAndPictureEpic,titleAndPictureRock,titleAndPictureRap,titleAndPictureAll;
     String finalTitle,realName,replace;
     int finalPic;
-
-    private ListView mListSon;
+    ImageView mainPicture;
+    private RecyclerView mListSon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,8 @@ public class ListSongActivity extends AppCompatActivity {
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        mListSon = (ListView) findViewById(R.id.listSonName);
+        mListSon = (RecyclerView) findViewById(R.id.listSonName);
+        mainPicture = (ImageView) findViewById(R.id.mainPicture);
 
         Intent intent = getIntent();
         final int positionCategory = intent.getIntExtra("name",0);
@@ -138,36 +142,32 @@ public class ListSongActivity extends AppCompatActivity {
 
         switch (positionCategory){
             case 0:
+                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.animelogo));
                 adapterMusic(anime);
                 break;
             case 1:
-               adapterMusic(epic);
+                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.epiclogo));
+                adapterMusic(epic);
                 break;
             case 2:
-              adapterMusic(rock);
+                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.rocklogo));
+                adapterMusic(rock);
                 break;
             case 3:
-               adapterMusic(rap);
+                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.raplogo));
+                adapterMusic(rap);
                 break;
             case 4:
+                mainPicture.setImageDrawable(getResources().getDrawable(R.drawable.allmusic));
                 adapterMusic(alea);
                 break;
         }
     }
 
     private void adapterMusic(final ArrayList<MusicModel> musique) {
-    ListSongAdapter adapterRap = new ListSongAdapter(this,musique);
-        mListSon.setAdapter(adapterRap);
-        mListSon.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent playIntent = new Intent(ListSongActivity.this,PlayActivity.class);
-                playIntent.putExtra("id",position);
-                playIntent.putExtra("category",musique.get(position).getCategory());
-                playIntent.putExtra("musicM", musique);
-                startActivity(playIntent);
-            }
-        });
+        mListSon.setLayoutManager(new LinearLayoutManager(ListSongActivity.this));
+        ListSongAdapter adapter = new ListSongAdapter(this,musique);
+        mListSon.setAdapter(adapter);
     }
 
     @Override

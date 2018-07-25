@@ -3,10 +3,12 @@ package com.example.poto.playmymusic;
 public class CategoryModel {
     private String name;
     private int idimg;
+    private int color;
 
-    public CategoryModel(String name, int idimg){
+    public CategoryModel(String name, int idimg,int color){
         this.name=name;
         this.idimg=idimg;
+        this.color=color;
     }
 
     public String getName() {
@@ -22,5 +24,12 @@ public class CategoryModel {
 
     public void setIdimg(int idimg) {
         this.idimg = idimg;
+    }
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

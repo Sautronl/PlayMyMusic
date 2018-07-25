@@ -2,18 +2,21 @@ package com.example.poto.playmymusic;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ListSongAdapter extends BaseAdapter{
+public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewholder>{
 
     private Activity activity;
-    private LayoutInflater inflater;
     private ArrayList<MusicModel> musicModels;
 
     public ListSongAdapter(Activity activity,ArrayList<MusicModel> musicModels) {
@@ -21,15 +24,15 @@ public class ListSongAdapter extends BaseAdapter{
         this.musicModels=musicModels;
     }
 
+    @NonNull
     @Override
-    public int getCount() {
-        return musicModels.size();
+    public ListSongAdapter.Viewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.activity_son_item, parent, false);
+
+        return new Viewholder(view);
     }
 
-    @Override
-    public Object getItem(int i) {
-        return musicModels.get(i);
-    }
 
     @Override
     public long getItemId(int i) {
@@ -37,13 +40,34 @@ public class ListSongAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        inflater = (LayoutInflater)activity.getBaseContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView = inflater.inflate(R.layout.activity_son_item,null);
+    public int getItemCount() {
+        return musicModels.size();
+    }
 
-        TextView txtName = (TextView)itemView.findViewById(R.id.nameSon);
-        txtName.setText(musicModels.get(i).getTitle());
+    @Override
+    public void onBindViewHolder(ListSongAdapter.Viewholder viewholder, final int position) {
+        viewholder.name.setText(musicModels.get(position).getTitle());
+        viewholder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent playIntent = new Intent(activity,PlayActivity.class);
+                playIntent.putExtra("id",position);
+                playIntent.putExtra("category",musicModels.get(position).getCategory());
+                playIntent.putExtra("musicM", musicModels);
+                activity.startActivity(playIntent);
+            }
+        });
+    }
 
-        return itemView;
+
+    public class Viewholder extends RecyclerView.ViewHolder{
+
+        TextView name;
+
+        public Viewholder(View itemView) {
+            super(itemView);
+
+            name = itemView.findViewById(R.id.nameSon);
+        }
     }
 }

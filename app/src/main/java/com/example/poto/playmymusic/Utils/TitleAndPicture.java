@@ -39,7 +39,7 @@ public class TitleAndPicture {
     //ROCK
     public ArrayList rockTitle(ArrayList<String> title){
         title.add("Breaking Benjamin - Diary Of Jane");
-        title.add("Sick Puppies - Youre Going Down");
+        title.add("Sick Puppies - You'Re Going Down");
         return title;
     }
 
