@@ -44,9 +44,7 @@ public class PlayActivity extends AppCompatActivity {
     int loopCounter =0;
     ImageView play1;
     ImageView pause1;
-    ImageView loop1,imagePlay;
-//    ArrayList<String> allTitle;
-//    MusicModel musicModelPlay;
+    ImageView loop1,imagePlay,stop1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +57,7 @@ public class PlayActivity extends AppCompatActivity {
         pause1 = (ImageView)findViewById(R.id.pause1);
         loop1 = (ImageView)findViewById(R.id.loop1);
         imagePlay = (ImageView) findViewById(R.id.imagePlay);
+        stop1 = (ImageView) findViewById(R.id.stop1);
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -89,6 +88,7 @@ public class PlayActivity extends AppCompatActivity {
                         break;
                     case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                         // previous track
+                        previousMusic(view);
                         break;
                 }
                 return false;
@@ -145,8 +145,14 @@ public class PlayActivity extends AppCompatActivity {
 
     public void playMusic(View v){
 
-        play1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        pause1.setBackgroundColor(getResources().getColor(R.color.blanc));
+        play1.setVisibility(View.GONE);
+        pause1.setVisibility(View.VISIBLE);
+        stop1.setBackgroundColor(getResources().getColor(R.color.blanc));
+        pause1.setBackgroundColor(getResources().getColor(R.color.jaune));
+        if (id<0){
+            id = sonPlay.size()-1;
+            Toast.makeText(this, "On est reparti", Toast.LENGTH_SHORT).show();
+        }
         if (mMedia == null){
             if (id == sonPlay.size()){
                 Toast.makeText(this, "tu as fait le tour gros", Toast.LENGTH_SHORT).show();
@@ -189,32 +195,40 @@ public class PlayActivity extends AppCompatActivity {
     }
 
     public void nextMusic(View v){
-        if (mMedia !=null){
-            stopMyMusic();
-            id = id+1;
-            loopCounter = 0;
-            loop1.setBackgroundColor(getResources().getColor(R.color.blanc));
-            playMusic(v);
-        }
+        stopMyMusic();
+        id = id+1;
+        loopCounter = 0;
+        loop1.setBackgroundColor(getResources().getColor(R.color.blanc));
+        playMusic(v);
     }
 
     public void next(View v){
         nextMusic(v);
     }
 
+    public void previousMusic(View v){
+        stopMyMusic();
+        id = id-1;
+        loopCounter = 0;
+        loop1.setBackgroundColor(getResources().getColor(R.color.blanc));
+        playMusic(v);
+    }
+
     public void pauseMusic(View v){
-        pause1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
-        play1.setBackgroundColor(getResources().getColor(R.color.blanc));
+        play1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        play1.setVisibility(View.VISIBLE);
+        pause1.setVisibility(View.GONE);
         if (mMedia != null){
             mMedia.pause();
         }
     }
 
     public void stopMusic(View v){
-        play1.setBackgroundColor(getResources().getColor(R.color.blanc));
-
+        play1.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        stop1.setBackgroundColor(getResources().getColor(R.color.rouge));
+        play1.setVisibility(View.VISIBLE);
+        pause1.setVisibility(View.GONE);
         stopMyMusic();
-
     }
 
     private void stopMyMusic(){
