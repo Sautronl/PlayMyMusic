@@ -33,8 +33,8 @@ import java.util.ArrayList;
 public class PlayActivity extends AppCompatActivity {
 
     private MediaPlayer mMedia;
-    int id,saveId;
-    String saveCategory;
+    int id;
+    CategoryModel saveCategory;
     private ArrayList<MusicModel> sonPlay = new ArrayList<>();
     private ArrayList<Integer> stockSon = new ArrayList<>();
     View view;
@@ -120,26 +120,8 @@ public class PlayActivity extends AppCompatActivity {
 
         Intent intenta = getIntent();
         id = intenta.getIntExtra("id",0);
-        saveCategory = intenta.getStringExtra("category");
-        switch (saveCategory){
-            case "Anime":
-                saveId=0;
-                break;
-            case "Epic":
-                saveId=1;
-                break;
-            case "Rock":
-                saveId=2;
-                break;
-            case "Rap":
-                saveId=3;
-                break;
-            case "Aleatoire":
-                saveId=4;
-                break;
-        }
+        saveCategory = intenta.getParcelableExtra("category");
         sonPlay = getIntent().getParcelableArrayListExtra("musicM");
-
         playMusic(view);
     }
 
@@ -243,7 +225,7 @@ public class PlayActivity extends AppCompatActivity {
     public void onBackPressed() {
         stopMyMusic();
         Intent backIntent = new Intent(PlayActivity.this,ListSongActivity.class);
-        backIntent.putExtra("name",saveId);
+        backIntent.putExtra("name",saveCategory);
         startActivity(backIntent);
     }
 }

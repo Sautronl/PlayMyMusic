@@ -50,23 +50,23 @@ public class CategoryActivity extends AppCompatActivity {
                 switch (position) {
                     case 0:
                         pos = position;
-                       intentCat(position);
+                       intentCat(mArray.get(position));
                         break;
                     case 1:
                         pos = position;
-                        intentCat(position);
+                        intentCat(mArray.get(position));
                         break;
                     case 2:
                         pos = position;
-                        intentCat(position);
+                        intentCat(mArray.get(position));
                         break;
                     case 3:
                         pos = position;
-                        intentCat(position);
+                        intentCat(mArray.get(position));
                         break;
                     case 4:
                         pos = position;
-                       start(getApplicationContext(),position);
+                        intentCat(mArray.get(position));
                         break;
                 }
             }
@@ -77,7 +77,7 @@ public class CategoryActivity extends AppCompatActivity {
         c.startActivity(new Intent(c, ListSongActivity.class).putExtra("name",pos));
     }
 
-    private void intentCat(int pos){
+    private void intentCat(CategoryModel pos){
         Intent intent = new Intent(CategoryActivity.this, ListSongActivity.class);
         intent.putExtra("name", pos);
         startActivity(intent);

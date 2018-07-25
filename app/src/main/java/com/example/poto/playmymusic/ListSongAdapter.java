@@ -19,10 +19,12 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewho
 
     private Activity activity;
     private ArrayList<MusicModel> musicModels;
+    private CategoryModel categoryModel;
 
-    public ListSongAdapter(Activity activity,ArrayList<MusicModel> musicModels) {
+    public ListSongAdapter(Activity activity,ArrayList<MusicModel> musicModels,CategoryModel categoryModel) {
         this.activity = activity;
         this.musicModels=musicModels;
+        this.categoryModel=categoryModel;
     }
 
     @NonNull
@@ -54,7 +56,7 @@ public class ListSongAdapter extends RecyclerView.Adapter<ListSongAdapter.Viewho
             public void onClick(View v) {
                 Intent playIntent = new Intent(activity,PlayActivity.class);
                 playIntent.putExtra("id",position);
-                playIntent.putExtra("category",musicModels.get(position).getCategory());
+                playIntent.putExtra("category",categoryModel);
                 playIntent.putExtra("musicM", musicModels);
                 activity.startActivity(playIntent);
             }

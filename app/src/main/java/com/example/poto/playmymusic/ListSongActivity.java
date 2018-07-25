@@ -41,6 +41,7 @@ public class ListSongActivity extends AppCompatActivity {
     ImageView mainPicture;
     private RecyclerView mListSon;
     CollapsingToolbarLayout collapsingToolbarLayout;
+    CategoryModel positionCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +56,9 @@ public class ListSongActivity extends AppCompatActivity {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.maincollapsing);
 
         Intent intent = getIntent();
-        final int positionCategory = intent.getIntExtra("name",0);
+        if (intent!= null){
+            positionCategory = intent.getParcelableExtra("name");
+        }
 
         try {
             listRaw();
@@ -63,7 +66,7 @@ public class ListSongActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        checkCategory(positionCategory);
+            checkCategory(positionCategory);
     }
 
     public void listRaw() throws IllegalAccessException {
@@ -142,23 +145,23 @@ public class ListSongActivity extends AppCompatActivity {
         realName = split;
     }
 
-    private void checkCategory(int positionCategory) {
+    private void checkCategory(CategoryModel positionCategory) {
 
-        switch (positionCategory){
-            case 0:
-                adapterMusic(anime,R.drawable.animelogo,"Anime");
+        switch (positionCategory.getName()){
+            case "Anime":
+                adapterMusic(anime,positionCategory.getIdimg(),positionCategory.getName());
                 break;
-            case 1:
-                adapterMusic(epic,R.drawable.epiclogo,"Epic");
+            case "Epic":
+                adapterMusic(epic,positionCategory.getIdimg(),positionCategory.getName());
                 break;
-            case 2:
-                adapterMusic(rock,R.drawable.rocklogo,"Rock");
+            case "Rock":
+                adapterMusic(rock,positionCategory.getIdimg(),positionCategory.getName());
                 break;
-            case 3:
-                adapterMusic(rap,R.drawable.raplogo,"Rap");
+            case "Rap":
+                adapterMusic(rap,positionCategory.getIdimg(),positionCategory.getName());
                 break;
-            case 4:
-                adapterMusic(alea,R.drawable.allmusic,"Aleatoire");
+            case "Aleatoire":
+                adapterMusic(alea,positionCategory.getIdimg(),positionCategory.getName());
                 break;
         }
     }
@@ -168,7 +171,7 @@ public class ListSongActivity extends AppCompatActivity {
         collapsingToolbarLayout.setBackgroundColor(getResources().getColor(R.color.blanc));
         mainPicture.setImageDrawable(getResources().getDrawable(drawable));
         mListSon.setLayoutManager(new LinearLayoutManager(ListSongActivity.this));
-        ListSongAdapter adapter = new ListSongAdapter(this,musique);
+        ListSongAdapter adapter = new ListSongAdapter(this,musique,positionCategory);
         mListSon.setAdapter(adapter);
     }
 
@@ -177,24 +180,3 @@ public class ListSongActivity extends AppCompatActivity {
         startActivity(new Intent(ListSongActivity.this,CategoryActivity.class));
     }
 }
-
-
-
-//    ArrayList<ArrayList> whichCategory = new ArrayList<>();
-//    ArrayList<ArrayList> whichTitle = new ArrayList<>();
-// whichCategory.add(anime);
-//        whichCategory.add(epic);
-//        whichCategory.add(rock);
-//        whichCategory.add(rap);
-//
-//        whichTitle.add(titreAnime);
-//        whichTitle.add(titreEpic);
-//        whichTitle.add(titreRock);
-//        whichTitle.add(titreRap);
-//        for (int i = whichCategory.size()-1; i >=positionCategory; i--) {
-//            if (i == positionCategory){
-//                ArrayList tr = whichCategory.get(i);
-//                titleList = whichTitle.get(i);
-//                for (int j = 0; j < tr.size(); j++) {
-//                    son.add((Integer) tr.get(j));
-//                }
