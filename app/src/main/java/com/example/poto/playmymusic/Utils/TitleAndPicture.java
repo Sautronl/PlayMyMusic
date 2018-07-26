@@ -8,84 +8,29 @@ import java.util.Iterator;
 
 public class TitleAndPicture {
     private String titre = "";
-    private int idImg =0;
+
+    public String titleSong(String fakeName) {
+
+        HashMap<String, String> realMusicTitle = new HashMap<String, String>();
 
 
-    public String titleSong(String genre,int count){
+        realMusicTitle.put("attack_on_titan_ost_reiner1", "Attack On Titan - Reiner OST");
+        realMusicTitle.put("berserk_blood_and_guts1", "Berserk - Blood And Guts");
+        realMusicTitle.put("eurielle_eurielle2", "Eurielle - Eurielle");
+        realMusicTitle.put("heart_of_courage2", "Two Steps from Hell - Heart of Courage");
+        realMusicTitle.put("courtesy_call_thousand_foot_krutch3", "Courtesy Call - Thousand Foot Krutch");
+        realMusicTitle.put("diary_of_jane3", "Breaking Benjamin - Diary Of Jane");
+        realMusicTitle.put("bigflo_and_oli_monsieur_tout_le_monde4", "BigFlo & Oli - Monsieur Tout Le Monde");
+        realMusicTitle.put("bigflo_and_oli_nous_aussi4", "BigFlo & Oli - Nous Aussi");
 
-        HashMap<Integer,String> musicTitle = new HashMap<Integer,String>();
-
-        if (genre.equals("Anime")){
-            musicTitle.put(0,"Evangelion OP - Cruel Angels Thesis");
-            musicTitle.put(1,"HUNTING FOR YOUR DREAM");
-           check(musicTitle,count);
-        }else if (genre.equals("Epic")){
-            musicTitle.put(0,"Two Steps from Hell - Heart of Courage");
-            musicTitle.put(1,"Two Steps From Hell - Immortal");
-            check(musicTitle,count);
-        }else if (genre.equals("Rock")){
-            musicTitle.put(0,"Breaking Benjamin - Diary Of Jane");
-            musicTitle.put(1,"Sick Puppies - You'Re Going Down");
-            check(musicTitle,count);
-        }else{
-            musicTitle.put(0,"Sniper - Fait divers");
-            musicTitle.put(1,"La Fouine - L'Unité");
-            check(musicTitle,count);
+        Iterator iterator = realMusicTitle.keySet().iterator();
+        while (iterator.hasNext()) {
+            String fakeTitle = (String) iterator.next();
+            if (fakeTitle == fakeName) {
+                titre = (String) realMusicTitle.get(fakeTitle);
+            }
         }
         return titre;
     }
-
-    private void check(HashMap<Integer,String > musicTitle,int count) {
-        Iterator iterator = musicTitle.keySet().iterator();
-        while (iterator.hasNext()) {
-            Integer number = (Integer) iterator.next();
-            if (number == count) {
-                titre = (String) musicTitle.get(number);
-            }
-        }
-    }
-
-    public int imageSong(String genre,int count){
-
-        HashMap<Integer,Integer> musicImage = new HashMap<>();
-
-        if (genre.equals("Anime")){
-            musicImage.put(0,R.drawable.evangelion11);
-            musicImage.put(1,R.drawable.hxh11);
-            otherCheck(musicImage,count);
-        }else if (genre.equals("Epic")){
-            musicImage.put(0,R.drawable.twostepfromhell);
-            musicImage.put(1,R.drawable.twostepfromhell);
-            otherCheck(musicImage,count);
-        }else if (genre.equals("Rock")){
-            musicImage.put(0,R.drawable.breakingbenjamin);
-            musicImage.put(1,R.drawable.sickpuppies);
-            otherCheck(musicImage,count);
-        }else if (genre.equals("Rap")){
-            musicImage.put(0,R.drawable.sniper);
-            musicImage.put(1,R.drawable.lafouine);
-            otherCheck(musicImage,count);
-        }else{
-            musicImage.put(0,R.drawable.breakingbenjamin);
-            musicImage.put(1,R.drawable.evangelion11);
-            musicImage.put(2,R.drawable.sniper);
-            musicImage.put(3,R.drawable.twostepfromhell);
-            musicImage.put(4,R.drawable.hxh11);
-            musicImage.put(5,R.drawable.twostepfromhell);
-            musicImage.put(6,R.drawable.lafouine);
-            musicImage.put(7,R.drawable.sickpuppies);
-            otherCheck(musicImage,count);
-        }
-        return idImg;
-    }
-
-    private void otherCheck(HashMap<Integer,Integer > musicTitle,int count) {
-        Iterator iterator = musicTitle.keySet().iterator();
-        while (iterator.hasNext()) {
-            Integer number = (Integer) iterator.next();
-            if (number == count) {
-                idImg =  musicTitle.get(number);
-            }
-        }
-    }
 }
+
