@@ -27,19 +27,9 @@ public class TitleAndPicture {
             musicTitle.put(0,"Breaking Benjamin - Diary Of Jane");
             musicTitle.put(1,"Sick Puppies - You'Re Going Down");
             check(musicTitle,count);
-        }else if (genre.equals("Rap")){
+        }else{
             musicTitle.put(0,"Sniper - Fait divers");
             musicTitle.put(1,"La Fouine - L'Unité");
-            check(musicTitle,count);
-        }else{
-            musicTitle.put(0,"Breaking Benjamin - Diary Of Jane");
-            musicTitle.put(1,"Evangelion OP - Cruel Angels Thesis");
-            musicTitle.put(2,"Sniper - Fait divers");
-            musicTitle.put(3,"Two Steps from Hell - Heart of Courage");
-            musicTitle.put(4,"HUNTING FOR YOUR DREAM");
-            musicTitle.put(5,"Two Steps From Hell - Immortal");
-            musicTitle.put(6,"La Fouine - L'Unité");
-            musicTitle.put(7,"Sick Puppies - You'Re Going Down");
             check(musicTitle,count);
         }
         return titre;
