@@ -28,12 +28,12 @@ public class ListSongActivity extends AppCompatActivity {
     ArrayList<MusicModel> alea = new ArrayList<>();
     ArrayList<CategoryModel> allCategory = new ArrayList<>();
     MusicModel musicModel;
-    String realName,replace;
+    String realName;
     ImageView mainPicture;
     private RecyclerView mListSon;
     CollapsingToolbarLayout collapsingToolbarLayout;
     CategoryModel positionCategory;
-    int animeCount;
+    int animeCount,idDrawable;
     int epicCount;
     int rockCount;
     int rapCount;
@@ -62,67 +62,67 @@ public class ListSongActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-            checkCategory(positionCategory);
+        checkCategory(positionCategory);
     }
 
     public void listRaw() throws IllegalAccessException {
         Field[] fields = R.raw.class.getFields();
-         animeCount = 0;
-         epicCount = 0;
-         rockCount = 0;
-         rapCount = 0;
+        Field[] fieldsDrawable = R.drawable.class.getFields();
+        animeCount = 0;
+        epicCount = 0;
+        rockCount = 0;
+        rapCount = 0;
+        int c=fieldsDrawable.length;
         for (int count = 0; count < fields.length; count++) {
             Log.i("Raw Asset: ", fields[count].getName());
             String nameID = fields[count].getName();
             int resID=fields[count].getInt(fields[count]);
-            splitName(nameID);
-            TitleAndPicture titleAndPicture = new TitleAndPicture();
-            int imageAll =titleAndPicture.imageSong("Aleatoire",count);
-            musicModel = new MusicModel(realName,resID,imageAll,allCategory.get(4));
-            alea.add(musicModel);
+            String nameAll = fields[count].getName();
+            for (int countdrawable = 0; countdrawable < fieldsDrawable.length; countdrawable++) {
+                if (fieldsDrawable[countdrawable].getName().contains(nameAll)){
+                    TitleAndPicture titleAndPicture = new TitleAndPicture();
+                    realName = titleAndPicture.titleSong(nameAll);
+                    idDrawable = fieldsDrawable[countdrawable].getInt(fieldsDrawable[countdrawable]);
+                }
+            }
+            MusicModel allMusicModel = new MusicModel(realName,resID,idDrawable,allCategory.get(4));
+            alea.add(allMusicModel);
             if (fields[count].getName().contains("1")){
                 int resourceID=fields[count].getInt(fields[count]);
-               getTheMusic("Anime",animeCount,resourceID,anime,allCategory.get(0));
+                getTheMusic(resourceID,anime,allCategory.get(0),realName,idDrawable,fields[count],c);
                 animeCount+=1;
             }
             else if (fields[count].getName().contains("2")){
                 int resourceID=fields[count].getInt(fields[count]);
-                getTheMusic("Epic",epicCount,resourceID,epic,allCategory.get(1));
+                getTheMusic(resourceID,epic,allCategory.get(1),realName,idDrawable,fields[count],c);
                 epicCount+=1;
             }
             else if (fields[count].getName().contains("3")){
                 int resourceID=fields[count].getInt(fields[count]);
-               getTheMusic("Rock",rockCount,resourceID,rock,allCategory.get(2));
+                getTheMusic(resourceID,rock,allCategory.get(2),realName,idDrawable,fields[count],c);
                 rockCount+=1;
             }
             else if (fields[count].getName().contains("4")){
                 int resourceID=fields[count].getInt(fields[count]);
-               getTheMusic("Rap",rapCount,resourceID,rap,allCategory.get(3));
-               rapCount+=1;
+                getTheMusic(resourceID,rap,allCategory.get(3),realName,idDrawable,fields[count],c);
+                rapCount+=1;
             }
         }
     }
 
-    private void getTheMusic(String genre,int count,int resourceID,ArrayList<MusicModel> category,CategoryModel allCategory) {
-        TitleAndPicture titleAndPicture2 = new TitleAndPicture();
-        String title = titleAndPicture2.titleSong(genre,count);
-        int image =titleAndPicture2.imageSong(genre,count);
-        musicModel = new MusicModel(title,resourceID,image,allCategory);
-        category.add(musicModel);
-    }
+    private void getTheMusic(int resourceID,ArrayList<MusicModel> category,CategoryModel allCategory,String realName,int idDrawable,Field field,int c) throws IllegalAccessException {
+        Field[] fieldsDrawable = R.drawable.class.getFields();
 
-    private void splitName(String name) {
-        if(name.contains("1")) {
-            replace = name.replaceAll("1", "");
-        }else if (name.contains("2")){
-            replace = name.replaceAll("2","");
-        }else if (name.contains("3")){
-            replace = name.replaceAll("3","");
-        }else{
-            replace = name.replaceAll("4","");
+        String nameSon = field.getName();
+        for (int countdrawable = 0; countdrawable < c; countdrawable++) {
+            if (fieldsDrawable[countdrawable].getName().contains(nameSon)){
+                TitleAndPicture titleAndPicture = new TitleAndPicture();
+                realName = titleAndPicture.titleSong(nameSon);
+                idDrawable = fieldsDrawable[countdrawable].getInt(fieldsDrawable[countdrawable]);
+            }
         }
-        String split = replace.replaceAll("_"," ");
-        realName = split;
+        musicModel = new MusicModel(realName,resourceID,idDrawable,allCategory);
+        category.add(musicModel);
     }
 
     private void checkCategory(CategoryModel positionCategory) {
